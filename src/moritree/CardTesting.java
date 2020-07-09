@@ -19,6 +19,6 @@ public class CardTesting {
 
         Deck resDeck = new Deck(decksDirPath + "/" + testDeck.name.replace(' ', '_') + ".csv");
 
-        System.out.println(resDeck);
+        Gui gui = new Gui(new Deck[] {testDeck, resDeck});
     }
 }
