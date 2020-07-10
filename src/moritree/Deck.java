@@ -38,8 +38,8 @@ public class Deck {
             br.close();
 
             String[] pathParts = path.split("/");
-            this.name = pathParts[pathParts.length - 1].replace('_', ' ');
-
+            String nameCsv = pathParts[pathParts.length - 1].replace('_', ' ');
+            this.name = nameCsv.substring(0, nameCsv.length() - 4);
             this.cards = lines
                     .stream()
                     .map(x -> x.split(","))
