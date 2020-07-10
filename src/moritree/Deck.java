@@ -82,4 +82,14 @@ public class Deck {
             throw new RuntimeException("Write to file failed");
         }
     }
+
+    public static Deck[] loadDecks(File dir) {
+        String[] list = dir.list();
+        if (list == null) return null;
+
+        return Arrays.stream(list)
+                .map(x -> new Deck(dir + "/" + x))
+                .collect(Collectors.toList())
+                .toArray(new Deck[list.length]);
+    }
 }

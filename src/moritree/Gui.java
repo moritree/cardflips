@@ -15,6 +15,7 @@ public class Gui {
         tabbedPane.addTab("Decks", new DecksListPanel(this));
 
         f.setSize(600, 400);
+        f.setMinimumSize(new Dimension(300, 200));
         f.setLayout(new BorderLayout());
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(tabbedPane, BorderLayout.CENTER);

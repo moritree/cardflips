@@ -24,18 +24,8 @@ public class Main {
 
         Deck resDeck = new Deck(decksDirPath + "/" + testDeck.name.replace(' ', '_') + ".csv");
 
-        DECKS = new Deck[] {testDeck, resDeck};
+        DECKS = new Deck[] {testDeck, testDeck, testDeck, testDeck, testDeck, testDeck};
 
         Gui gui = new Gui();
-    }
-
-    public static Deck[] loadDecks(File dir) {
-        String[] list = dir.list();
-        if (list == null) return null;
-
-        return Arrays.stream(list)
-                .map(x -> new Deck(dir + "/" + x))
-                .collect(Collectors.toList())
-                .toArray(new Deck[list.length]);
     }
 }
