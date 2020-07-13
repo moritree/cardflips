@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
-public class Deck {
+public class Deck implements Comparable<Deck> {
     String name;
     Card[] cards;
 
@@ -20,6 +20,10 @@ public class Deck {
      * @param cards an array of the cards that make up the deck
      */
     public Deck(String name, Card[] cards) {
+        for (Card card : cards) {
+            assert card != null && card.front != null && card.reverse != null;
+        }
+
         this.name = name;
         this.cards = cards;
     }
@@ -39,14 +43,14 @@ public class Deck {
 
             String[] pathParts = path.split("/");
             String nameCsv = pathParts[pathParts.length - 1].replace('_', ' ');
-            this.name = nameCsv.substring(0, nameCsv.length() - 4);
+            this.name = nameCsv.substring(0, nameCsv.indexOf('.'));
             this.cards = lines
                     .stream()
-                    .map(x -> x.split(","))
+                    .map(this::splitQuoteWrappedCsv)
                     .map(x -> new Card(
                             removeQuotes(x[0]),
                             removeQuotes(x[1]),
-                            x[2].equals("\"\"") ? null : LocalDateTime.parse(removeQuotes(x[2]))
+                            x[2].equals("``") ? null : LocalDateTime.parse(removeQuotes(x[2]))
                     ))
                     .collect(Collectors.toList())
                     .toArray(new Card[lines.size()]);
@@ -55,13 +59,23 @@ public class Deck {
         }
     }
 
+    public String getName() { return this.name; }
+
+    public int compareTo(Deck other) {
+        return this.name.compareTo(other.name);
+    }
+
+    private String[] splitQuoteWrappedCsv(String str) {
+        return str.split(",(?=(?:[^`]*`[^`]*`)*[^`]*$)", -1);
+    }
+
     @Override
     public String toString() {
-        return Arrays.stream(this.cards).map(Card::toString).reduce("", (x, y) -> x + y);
+        return Arrays.stream(this.cards).map(Card::toString).reduce("", (x, y) -> x + y + "\n");
     }
 
     private String removeQuotes(String str) {
-        if (str.charAt(0) == '\"' && str.charAt(str.length() - 1) == '\"') {
+        if (str.charAt(0) == '`' && str.charAt(str.length() - 1) == '`') {
             return str.substring(1, str.length() - 2);
         } else throw new RuntimeException("The string is not wrapped in quotation marks, so they cannot be removed.");
     }
@@ -83,13 +97,18 @@ public class Deck {
         }
     }
 
-    public static Deck[] loadDecks(File dir) {
+    /**
+     * When given a specified directory, loads all of the deck .csv files into an array of Decks
+     *
+     * @param dir The directory from which to load decks
+     * @return an array of all of the decks loaded from that directory
+     */
+    public static Deck[] loadAllDecksFromDirectory(File dir) {
         String[] list = dir.list();
         if (list == null) return null;
 
         return Arrays.stream(list)
                 .map(x -> new Deck(dir + "/" + x))
-                .collect(Collectors.toList())
-                .toArray(new Deck[list.length]);
+                .toArray(Deck[]::new);
     }
 }

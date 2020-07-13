@@ -1,22 +1,22 @@
 package moritree;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.util.Arrays;
 
 public class DecksListPanel extends JPanel {
     Deck[] decks;
 
     public DecksListPanel(Gui gui) {
-        this.decks = Main.DECKS;
+        this.decks = Main.getDECKS();
         setUpGui();
     }
 
     private void setUpGui() {
         setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(5, 5, 5, 5));
 
         JPanel topBarPanel = new JPanel();
         topBarPanel.setLayout(new BorderLayout());
@@ -36,18 +36,20 @@ public class DecksListPanel extends JPanel {
             Deck deck = this.decks[i];
 
             JPanel cell = new JPanel();
-            cell.setPreferredSize(new Dimension(decksTablePanel.getPreferredSize().width, 30));
+            cell.setPreferredSize(new Dimension(decksTablePanel.getPreferredSize().width, 20));
             cell.setMinimumSize(new Dimension(decksTablePanel.getPreferredSize().width, 20));
             cell.setLayout(new BorderLayout());
 
-            JLabel deckNameLabel = new JLabel(" " + deck.name);
-
-            JLabel nCardsLabel = new JLabel(deck.cards.length + " ");
-            nCardsLabel.setPreferredSize(new Dimension(50, nCardsLabel.getPreferredSize().height));
-            nCardsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            JLabel deckNameLabel = new JLabel(
+                    "<html>" +
+                            deck.name +
+                            " <i><FONT COLOR=\"a1a1a1\">(" +
+                            deck.cards.length +
+                            " cards)</FONT></i></html>"
+            );
+            deckNameLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
             cell.add(deckNameLabel, BorderLayout.WEST);
-            cell.add(nCardsLabel, BorderLayout.EAST);
 
             if (i % 2 == 0) {
                 cell.setBackground(Color.WHITE);
