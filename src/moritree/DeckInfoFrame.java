@@ -2,17 +2,16 @@ package moritree;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class DeckInfoFrame extends JFrame {
-    private Deck deck;
+    private final Deck deck;
     private String searchString = "";
-    private DeckInfoFrame f;
+    private CardsListPanel cardsListMainPanel;
+    private JScrollPane scrollPane;
 
     public DeckInfoFrame(Deck deck) {
         this.deck = deck;
@@ -21,12 +20,10 @@ public class DeckInfoFrame extends JFrame {
         setMinimumSize(new Dimension(300, 200));
         setLayout(new BorderLayout());
         createAndShowGui();
-        f = this;
     }
 
     private void createAndShowGui() {
         JPanel p = new JPanel();
-        p.setName("p");
         p.setLayout(new BorderLayout());
         p.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -45,21 +42,33 @@ public class DeckInfoFrame extends JFrame {
             cardsListPanel.setLayout(new BorderLayout());
 
             {
-                JPanel cardsListMainPanel = new JPanel();
-                cardsListMainPanel.setLayout(new BoxLayout(cardsListMainPanel, BoxLayout.Y_AXIS));
-
-                {
-                    fillCardsListMainPanel(cardsListMainPanel);
-                }
+                cardsListMainPanel = new CardsListPanel(this.deck.cards, searchString);
 
                 JPanel cardsListTopPanel = new JPanel();
                 cardsListTopPanel.setLayout(new BorderLayout());
 
                 {
                     JTextField searchBarField = new JTextField();
-                    searchBarField.addActionListener(e -> {
-                        searchString = searchBarField.getText();
-                        System.out.println(searchBarField.getText());
+                    searchBarField.getDocument().addDocumentListener(new DocumentListener() {
+                        @Override
+                        public void insertUpdate(DocumentEvent e) {
+                            searchString = searchBarField.getText();
+                            cardsListMainPanel = new CardsListPanel(
+                                    Arrays.stream(deck.cards)
+                                            .filter(x ->
+                                                    x.front.toUpperCase().contains(searchString.toUpperCase()) ||
+                                                            x.reverse.toUpperCase().contains(searchString.toUpperCase()))
+                                            .toArray(Card[]::new),
+                                    searchString
+                            );
+                            scrollPane.setViewportView(cardsListMainPanel);
+                        }
+
+                        @Override
+                        public void removeUpdate(DocumentEvent e) { insertUpdate(e); }
+
+                        @Override
+                        public void changedUpdate(DocumentEvent e) { insertUpdate(e); }
                     });
 
                     JButton addDeckButton = new JButton("+");
@@ -68,7 +77,7 @@ public class DeckInfoFrame extends JFrame {
                     cardsListTopPanel.add(addDeckButton, BorderLayout.EAST);
                 }
 
-                JScrollPane scrollPane = new JScrollPane(cardsListMainPanel);
+                scrollPane = new JScrollPane(cardsListMainPanel);
                 scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                 scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -82,61 +91,5 @@ public class DeckInfoFrame extends JFrame {
 
         add(p, BorderLayout.CENTER);
         setVisible(true);
-    }
-
-    private void fillCardsListMainPanel(JPanel p) {
-        Card[] cards = Arrays.stream(deck.cards)
-                .filter(x -> x.front.contains(searchString) || x.reverse.contains(searchString))
-                .toArray(Card[]::new);
-
-        for (int i = 0; i < cards.length; i ++) {
-            Card card = cards[i];
-
-            JPanel cell = new JPanel();
-            cell.setPreferredSize(new Dimension(p.getPreferredSize().width, 20));
-            cell.setMinimumSize(new Dimension(p.getPreferredSize().width, 20));
-            cell.setLayout(new BorderLayout());
-
-            JLabel cardFrontLabel = new JLabel(card.front);
-            cardFrontLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
-            cardFrontLabel.setName(card.front);
-
-            JLabel cardBackLabel = new JLabel(card.reverse);
-            cardBackLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
-            cardBackLabel.setName(card.reverse);
-
-            cell.add(cardFrontLabel, BorderLayout.WEST);
-            cell.add(cardBackLabel, BorderLayout.EAST);
-
-            if (i % 2 == 0) {
-                cell.setBackground(Color.WHITE);
-            }
-
-            cell.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    JPanel c = (JPanel) e.getSource();
-                    Arrays.stream(c.getComponents())
-                            .filter(x -> x instanceof JLabel)
-                            .forEach(x -> {
-                                JLabel label = (JLabel)x;
-
-                                label.setText(label.getName());
-                                Graphics g = c.getGraphics();
-                                FontMetrics met = g.getFontMetrics();
-                                int width = met.stringWidth(label.getText());
-
-                                while (width >= c.getWidth() / 2 - 10 && label.getText().length() > 3) {
-                                    String text = label.getText();
-                                    label.setText(text.substring(0, text.length() - 4) + "...");
-                                    width = met.stringWidth(label.getText());
-                                }
-                            });
-                    super.componentResized(e);
-                }
-            });
-
-            p.add(cell);
-        }
     }
 }

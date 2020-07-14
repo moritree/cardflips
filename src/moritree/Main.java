@@ -34,10 +34,22 @@ public class Main {
 
     private static Deck[] generateSampleDecks() {
         Card[] sampleCards = {
-                new Card("abcabcabcabcabcabcabcabc", "defdefdefdefdefdefdefdef", LocalDateTime.now()),
-                new Card("ghi", "jkl", null),
-                new Card("mnomnomnomnomnomnomnomnomnomnomno", "pqrpqr", null),
-                new Card("stustustu", "vwxvwxvwxvwxvwxvwxvwxvwx", LocalDateTime.now())
+                new Card("私", "わたし", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("僕", "ぼく", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("君", "きみ", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("お前", "おまえ", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("男", "おとこ", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("赤ん坊", "あかんぼ", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("子", "こ", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("お前はもう死んでいる", "おまえはもうしんでいる", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("女", "おんな", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("I/me/my", "Ich/mich/mein", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("You/you/your (informal)", "Du/dich/dein", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("You/you/your (formal)", "Sie/sie/ihr", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("Woman", "die Frau", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("Man", "der Mann", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("Child", "das Kind", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("You are small and clean", "Du bist klein und sauber", Math.random() > 0.5 ? LocalDateTime.now() : null),
         };
 
         Deck[] decks = new Deck[(int)Math.ceil(Math.random() * 20)];
