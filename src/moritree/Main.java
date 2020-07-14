@@ -57,7 +57,7 @@ public class Main {
             Card[] cards = new Card[(int)Math.ceil(Math.random() * 50)];
             for(int j = 0; j < cards.length; j ++) {
                 int nextInt = (int)Math.floor(Math.random() * (sampleCards.length));
-                cards[j] = sampleCards[nextInt];
+                cards[j] = new Card(sampleCards[nextInt]);
             }
             decks[i] = new Deck("Deck " + i, cards);
         }

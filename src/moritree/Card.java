@@ -13,6 +13,12 @@ public class Card {
         this.due = due;
     }
 
+    public Card(Card card) {
+        this.front = card.front;
+        this.reverse = card.reverse;
+        this.due = card.due;
+    }
+
     @Override
     public String toString() {
         return "`" + front + "`,`" + reverse + "`,`" + (this.due != null ? this.due.toString() : "") + "`";
