@@ -1,5 +1,7 @@
 package moritree;
 
+import org.jsoup.Jsoup;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -19,13 +21,13 @@ public class CardsListPanel extends JPanel {
             cell.setMinimumSize(new Dimension(getPreferredSize().width, 20));
             cell.setLayout(new BorderLayout());
 
-            JLabel cardFrontLabel = new JLabel(card.front);
+            JLabel cardFrontLabel = new JLabel(Jsoup.parse(card.front).text());
             cardFrontLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
-            cardFrontLabel.setName(card.front);
+            cardFrontLabel.setName(Jsoup.parse(card.front).text());
 
-            JLabel cardBackLabel = new JLabel(card.reverse);
+            JLabel cardBackLabel = new JLabel(Jsoup.parse(card.reverse).text());
             cardBackLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
-            cardBackLabel.setName(card.reverse);
+            cardBackLabel.setName(Jsoup.parse(card.reverse).text());
 
             JLabel dateDueLabel = new JLabel(card.due == null ? "NEW" : card.due.toString());
             dateDueLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
