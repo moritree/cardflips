@@ -49,7 +49,7 @@ public class Main {
                 new Card("Woman", "die Frau", Math.random() > 0.5 ? LocalDateTime.now() : null),
                 new Card("Man", "der Mann", Math.random() > 0.5 ? LocalDateTime.now() : null),
                 new Card("<html><h1>Child</h1></html>", "das Kind", Math.random() > 0.5 ? LocalDateTime.now() : null),
-                new Card("You are small\n and clean", "Du bist klein und sauber", Math.random() > 0.5 ? LocalDateTime.now() : null),
+                new Card("<html><p>You are small</p><p> and clean</p></html>", "Du bist klein und sauber", Math.random() > 0.5 ? LocalDateTime.now() : null),
         };
 
         Deck[] decks = new Deck[(int)Math.ceil(Math.random() * 20)];
