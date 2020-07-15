@@ -5,7 +5,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class DecksListPanel extends JPanel {
     Deck[] decks;
@@ -46,6 +49,13 @@ public class DecksListPanel extends JPanel {
             });
 
             JButton addDeckButton = new JButton("+");
+            addDeckButton.addActionListener(e -> {
+                Deck d = new Deck("New Deck", new Card[]{});
+                java.util.List<Deck> list = Arrays.stream(decks).collect(Collectors.toList());
+                list.add(d);
+                decks = list.toArray(Deck[]::new);
+                new DeckInfoFrame(d);
+            });
 
             topBarPanel.add(searchBarField, BorderLayout.CENTER);
             topBarPanel.add(addDeckButton, BorderLayout.EAST);
