@@ -119,6 +119,25 @@ public class CardInfoFrame extends JFrame {
                 JTextArea backTextArea = new JTextArea();
                 backTextArea.setText(card.reverse);
 
+                backTextArea.getDocument().addDocumentListener(new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        changedUpdate(e);
+                    }
+
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        changedUpdate(e);
+                    }
+
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        card.reverse = backTextArea.getText();
+                        tabbedPane.removeTabAt(0);
+                        tabbedPane.insertTab("View", null, viewPanel(), "View", 0);
+                    }
+                });
+
                 JScrollPane backTextAreaScrollPane = new JScrollPane(backTextArea);
                 backTextAreaScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                 backTextAreaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
