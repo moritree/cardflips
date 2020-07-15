@@ -13,6 +13,7 @@ public class Gui {
 
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Decks", new DecksListPanel());
+        tabbedPane.addTab("Statistics", new StatisticsPanel());
 
         f.setSize(600, 400);
         f.setMinimumSize(new Dimension(300, 200));
