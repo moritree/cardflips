@@ -5,6 +5,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
@@ -73,10 +75,18 @@ public class DeckInfoFrame extends JFrame {
                         public void changedUpdate(DocumentEvent e) { insertUpdate(e); }
                     });
 
-                    JButton addDeckButton = new JButton("+");
+                    JButton addCardButton = new JButton("+");
+                    addCardButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Card c = new Card("", "", null);
+                            deck.addCard(c);
+                            new CardInfoFrame(c);
+                        }
+                    });
 
                     cardsListTopPanel.add(searchBarField, BorderLayout.CENTER);
-                    cardsListTopPanel.add(addDeckButton, BorderLayout.EAST);
+                    cardsListTopPanel.add(addCardButton, BorderLayout.EAST);
                 }
 
                 scrollPane = new JScrollPane(cardsListMainPanel);

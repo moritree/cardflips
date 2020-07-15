@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -77,6 +78,12 @@ public class Deck implements Comparable<Deck> {
         if (str.charAt(0) == '`' && str.charAt(str.length() - 1) == '`') {
             return str.substring(1, str.length() - 2);
         } else throw new RuntimeException("The string is not wrapped in quotation marks, so they cannot be removed.");
+    }
+
+    public void addCard(Card card) {
+        List<Card> list = Arrays.stream(cards).collect(Collectors.toList());
+        list.add(card);
+        cards = list.toArray(new Card[list.size()]);
     }
 
     /**
