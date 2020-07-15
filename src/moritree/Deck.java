@@ -111,7 +111,7 @@ public class Deck implements Comparable<Deck> {
      */
     public static Deck[] loadAllDecksFromDirectory(File dir) {
         String[] list = dir.list();
-        if (list == null) return null;
+        if (list == null) return new Deck[]{};
 
         return Arrays.stream(list)
                 .map(x -> new Deck(dir + "/" + x))

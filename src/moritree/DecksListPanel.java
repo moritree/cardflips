@@ -52,6 +52,7 @@ public class DecksListPanel extends JPanel {
                 java.util.List<Deck> list = Arrays.stream(decks).collect(Collectors.toList());
                 list.add(d);
                 decks = list.toArray(Deck[]::new);
+                Main.setDECKS(decks);
                 new DeckInfoFrame(d);
             });
 

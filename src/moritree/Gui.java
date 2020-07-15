@@ -4,14 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Gui {
+    private JFrame f;
+    private JTabbedPane tabbedPane;
+
     public Gui() {
         createAndShowGUI();
     }
 
     public void createAndShowGUI() {
-        JFrame f = new JFrame("Main GUI");
+        f = new JFrame("Main GUI");
 
-        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Decks", new DecksListPanel());
         tabbedPane.addTab("Statistics", new StatisticsPanel());
 
@@ -21,5 +24,14 @@ public class Gui {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(tabbedPane, BorderLayout.CENTER);
         f.setVisible(true);
+    }
+
+    public void reload() {
+        for (int i = 0; i <= tabbedPane.getTabCount(); i ++) {
+            tabbedPane.removeTabAt(0);
+        }
+
+        tabbedPane.addTab("Decks", new DecksListPanel());
+        tabbedPane.addTab("Statistics", new StatisticsPanel());
     }
 }

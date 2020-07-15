@@ -7,8 +7,9 @@ import java.util.Comparator;
 
 public class Main {
     private static Deck[] DECKS;
-    private static final boolean TESTING = true;
+    private static final boolean TESTING = false;
     private static final String DECKS_DIR = "decks";
+    private static Gui GUI;
 
     public static void main(String[] args) {
         File decksDir = new File(DECKS_DIR);
@@ -17,7 +18,7 @@ public class Main {
         DECKS = TESTING ? generateSampleDecks() : Deck.loadAllDecksFromDirectory(new File(DECKS_DIR));
         if (DECKS != null) Arrays.sort(DECKS, Comparator.comparing(Deck::getName));
 
-        Gui gui = new Gui();
+        GUI = new Gui();
     }
 
     public static String getDecksDir() {
@@ -26,6 +27,11 @@ public class Main {
 
     public static Deck[] getDECKS() {
         return DECKS;
+    }
+
+    public static void setDECKS(Deck[] decks) {
+        DECKS = decks;
+        GUI.reload();
     }
 
     public static boolean isTESTING() {
