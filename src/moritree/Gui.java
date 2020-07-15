@@ -12,7 +12,7 @@ public class Gui {
         JFrame f = new JFrame("Main GUI");
 
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Decks", new DecksListPanel(this));
+        tabbedPane.addTab("Decks", new DecksListPanel());
 
         f.setSize(600, 400);
         f.setMinimumSize(new Dimension(300, 200));

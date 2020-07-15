@@ -13,7 +13,7 @@ public class DecksListPanel extends JPanel {
     JPanel decksTablePanel;
     JScrollPane scrollPane;
 
-    public DecksListPanel(Gui gui) {
+    public DecksListPanel() {
         this.decks = Main.getDECKS();
         setUpGui();
     }
