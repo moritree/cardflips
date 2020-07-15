@@ -2,12 +2,18 @@ package moritree;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 
 public class DecksListPanel extends JPanel {
     Deck[] decks;
+    String searchString = "";
+    JPanel decksTablePanel;
+    JScrollPane scrollPane;
 
     public DecksListPanel(Gui gui) {
         this.decks = Main.getDECKS();
@@ -22,6 +28,24 @@ public class DecksListPanel extends JPanel {
         topBarPanel.setLayout(new BorderLayout());
         {
             JTextField searchBarField = new JTextField();
+            searchBarField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    searchString = searchBarField.getText();
+                    decksTablePanel = new DecksTablePanel(
+                            Arrays.stream(decks)
+                                    .filter(x -> x.getName().toUpperCase().contains(searchString.toUpperCase()))
+                                    .toArray(Deck[]::new)
+                    );
+                    scrollPane.setViewportView(decksTablePanel);
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) { insertUpdate(e); }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) { insertUpdate(e); }
+            });
 
             JButton addDeckButton = new JButton("+");
 
@@ -29,71 +53,13 @@ public class DecksListPanel extends JPanel {
             topBarPanel.add(addDeckButton, BorderLayout.EAST);
         }
 
-        JPanel decksTablePanel = new JPanel();
-        decksTablePanel.setLayout(new BoxLayout(decksTablePanel, BoxLayout.Y_AXIS));
+        decksTablePanel = new DecksTablePanel(decks);
 
-        for (int i = 0; i < this.decks.length; i ++) {
-            Deck deck = this.decks[i];
-
-            JPanel cell = new JPanel();
-            cell.setPreferredSize(new Dimension(decksTablePanel.getPreferredSize().width, 20));
-            cell.setMinimumSize(new Dimension(decksTablePanel.getPreferredSize().width, 20));
-            cell.setLayout(new BorderLayout());
-
-            JLabel deckNameLabel = new JLabel(
-                    "<html>" +
-                            deck.name +
-                            " <i><FONT COLOR=\"a1a1a1\">(" +
-                            deck.cards.length +
-                            " cards)</FONT></i></html>"
-            );
-            deckNameLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-            cell.add(deckNameLabel, BorderLayout.WEST);
-
-            if (i % 2 == 0) {
-                cell.setBackground(Color.WHITE);
-            }
-
-            addMouseListenerToCell(cell, deck);
-
-            decksTablePanel.add(cell);
-        }
-
-        JScrollPane scrollPane = new JScrollPane(decksTablePanel);
+        scrollPane = new JScrollPane(decksTablePanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         add(topBarPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
-    }
-
-    private void addMouseListenerToCell(JPanel cell, Deck deck) {
-        cell.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                new DeckInfoFrame(deck);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
     }
 }
