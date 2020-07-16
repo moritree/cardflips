@@ -12,10 +12,8 @@ public class StatisticsPanel extends JPanel {
                 "<html>"
                     + "<h1>Decks</h1>"
                     + "<p>"
-                        + "<b>Decks count:</b> " + decks.length + "<br>"
-                        + "<b>Total cards count:</b> "
-                            + Arrays.stream(decks).map(x -> x.cards.length).reduce(0, Integer::sum)
-                            + "<br>"
+                        + "You have <b>" + Arrays.stream(decks).map(x -> x.cards.length).reduce(0, Integer::sum)
+                        + "</b> cards in <b>" + decks.length + "</b> decks.<br>"
                     + "</p>"
                 + "</html>";
         JLabel textLabel = new JLabel(text);

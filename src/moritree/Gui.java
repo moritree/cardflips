@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Gui {
-    private JFrame f;
     private JTabbedPane tabbedPane;
 
     public Gui() {
@@ -12,7 +11,7 @@ public class Gui {
     }
 
     public void createAndShowGUI() {
-        f = new JFrame("Main GUI");
+        JFrame f = new JFrame("Main GUI");
 
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Decks", new DecksListPanel());

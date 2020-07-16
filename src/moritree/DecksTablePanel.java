@@ -19,11 +19,8 @@ public class DecksTablePanel extends JPanel {
             cell.setLayout(new BorderLayout());
 
             JLabel deckNameLabel = new JLabel(
-                    "<html>" +
-                            deck.name +
-                            " <i><FONT COLOR=\"a1a1a1\">(" +
-                            deck.cards.length +
-                            " cards)</FONT></i></html>"
+                    "<html>" + deck.name + " <i><FONT COLOR=\"a1a1a1\">("
+                            + deck.cards.length + " cards)</FONT></i></html>"
             );
             deckNameLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 

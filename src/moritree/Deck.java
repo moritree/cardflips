@@ -48,9 +48,9 @@ public class Deck implements Comparable<Deck> {
                     .stream()
                     .map(this::splitQuoteWrappedCsv)
                     .map(x -> new Card(
-                            removeQuotes(x[0]),
-                            removeQuotes(x[1]),
-                            x[2].equals("``") ? null : LocalDateTime.parse(removeQuotes(x[2]))
+                            removeBackticks(x[0]),
+                            removeBackticks(x[1]),
+                            x[2].equals("``") ? null : LocalDateTime.parse(removeBackticks(x[2]))
                     ))
                     .collect(Collectors.toList())
                     .toArray(new Card[lines.size()]);
@@ -74,12 +74,17 @@ public class Deck implements Comparable<Deck> {
         return Arrays.stream(this.cards).map(Card::toString).reduce("", (x, y) -> x + y + "\n");
     }
 
-    private String removeQuotes(String str) {
+    private String removeBackticks(String str) {
         if (str.charAt(0) == '`' && str.charAt(str.length() - 1) == '`') {
             return str.substring(1, str.length() - 2);
-        } else throw new RuntimeException("The string is not wrapped in quotation marks, so they cannot be removed.");
+        } else throw new RuntimeException("The string is not wrapped in backticks, so they cannot be removed.");
     }
 
+    /**
+     * Add a card to this Deck
+     *
+     * @param card the card to add
+     */
     public void addCard(Card card) {
         List<Card> list = Arrays.stream(cards).collect(Collectors.toList());
         list.add(card);
