@@ -15,7 +15,7 @@ public class CardInfoFrame extends JFrame {
     public CardInfoFrame(Card card) {
         this.card = card;
 
-        this.setTitle(Jsoup.parse(card.front).text());
+        this.setTitle("Card: " + Jsoup.parse(card.front).text());
         setSize(600, 400);
         setMinimumSize(new Dimension(300, 200));
         createAndShowGui();

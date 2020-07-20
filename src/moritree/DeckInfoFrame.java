@@ -7,8 +7,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Arrays;
 
 public class DeckInfoFrame extends JFrame {
@@ -38,6 +36,8 @@ public class DeckInfoFrame extends JFrame {
             {
                 JButton studyButton = new JButton("Study");
                 studyButton.setPreferredSize(new Dimension(topBarPanel.getWidth(), 50));
+                studyButton.addActionListener(e -> new StudyFrame(deck));
+
                 topBarPanel.add(studyButton, BorderLayout.CENTER);
             }
 
