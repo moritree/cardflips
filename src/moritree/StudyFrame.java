@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -11,8 +12,7 @@ import java.util.stream.Collectors;
 
 public class StudyFrame extends JFrame {
     private Deck deck;
-    private Card[] dueCards;
-    private Card[] doneCards;
+    private ArrayList<Card> dueCards, learningCards, doneCards;
 
     public StudyFrame(Deck deck) {
         this.deck = deck;
@@ -20,7 +20,7 @@ public class StudyFrame extends JFrame {
                 .filter(x -> x.due != null && x.due.isBefore(LocalDateTime.now()))
                 .collect(Collectors.toList());
         Collections.shuffle(dueList);
-        dueCards = dueList.toArray(Card[]::new);
+        dueCards = new ArrayList<>(dueList);
         setMinimumSize(new Dimension(300, 200));
         setPreferredSize(new Dimension(600, 400));
         createAndShowFrontGui();
@@ -33,7 +33,7 @@ public class StudyFrame extends JFrame {
         mainCardPanel.setLayout(new BorderLayout());
 
         {
-            JLabel mainTextLabel = new JLabel("<html>" + dueCards[0].front + "</html>");
+            JLabel mainTextLabel = new JLabel("<html>" + dueCards.get(0).front + "</html>");
             mainTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
             mainTextLabel.setVerticalAlignment(SwingConstants.CENTER);
             mainCardPanel.add(mainTextLabel, BorderLayout.CENTER);
@@ -62,7 +62,7 @@ public class StudyFrame extends JFrame {
                 JLabel infoLabel = new JLabel(
                         "<html>"
                                 + "<FONT COLOR=\"BB513A\">"
-                                    + dueCards.length
+                                    + dueCards.size()
                                 + "</FONT>"
                         + "</html>");
                 infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -86,7 +86,7 @@ public class StudyFrame extends JFrame {
         mainCardPanel.setLayout(new BorderLayout());
 
         {
-            JLabel mainTextLabel = new JLabel("<html>" + dueCards[0].reverse + "</html>");
+            JLabel mainTextLabel = new JLabel("<html>" + dueCards.get(0).reverse + "</html>");
             mainTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
             mainTextLabel.setVerticalAlignment(SwingConstants.CENTER);
             mainCardPanel.add(mainTextLabel, BorderLayout.CENTER);
